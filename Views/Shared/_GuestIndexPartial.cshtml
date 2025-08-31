@@ -1,11 +1,10 @@
-@model IEnumerable<CarRentalSystemSeparation.Areas.Vehicle.DTOs.VehicleListDTO>
+﻿@model IEnumerable<CarRentalSystemSeparation.Areas.Vehicle.DTOs.VehicleListDTO>
 @{
     ViewData["Title"] = "Home";
     var banners = ViewBag.Banners as IEnumerable<CarRentalSystemSeparation.Areas.Vehicle.DTOs.BannerDTO>;
     var featuredVehicles = ViewBag.FeaturedVehicles as IEnumerable<CarRentalSystemSeparation.Areas.Vehicle.DTOs.VehicleListDTO>;
     Layout = "_Layout";
 }
-@await Html.PartialAsync("_GuestIndexPartial")
 
 <!-- Hero Carousel -->
 <div id="heroCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
@@ -14,7 +13,7 @@
         {
             @for (int i = 0; i < banners.Count(); i++)
             {
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="@i" 
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="@i"
                         class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")"></button>
             }
         }
@@ -32,9 +31,7 @@
                         <a class="btn btn-light btn-lg me-2" asp-page="/Home/Vehicles">
                             <i class="bi bi-car-front me-2"></i>Browse Vehicles
                         </a>
-                        <a class="btn btn-outline-light btn-lg" asp-page="/Account/Login">
-                            <i class="bi bi-person-plus me-2"></i>Get Started
-                        </a>
+                        <!-- Removed Get Started button -->
                     </div>
                 </div>
             }
@@ -112,7 +109,7 @@
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="badge price-badge fs-6">$@vehicle.PricePerDay/day</span>
-                                <a href="@Url.Action("VehicleDetails", "Home", new { id = vehicle.Id })" 
+                                <a href="@Url.Action("VehicleDetails", "Home", new { id = vehicle.Id })"
                                    class="btn btn-primary btn-sm">
                                     <i class="bi bi-eye me-1"></i>View Details
                                 </a>
@@ -137,9 +134,7 @@
             <div class="col-lg-8">
                 <h2 class="display-4 fw-bold mb-4">Ready to Start Your Journey?</h2>
                 <p class="lead mb-4">Join thousands of satisfied customers who trust CarRental Pro for their transportation needs.</p>
-                <a class="btn btn-light btn-lg me-3" asp-controller="Account" asp-action="Register">
-                    <i class="bi bi-person-plus me-2"></i>Create Account
-                </a>
+                <!-- Removed Create Account button -->
                 <a class="btn btn-outline-light btn-lg" asp-controller="Home" asp-action="About">
                     <i class="bi bi-info-circle me-2"></i>Learn More
                 </a>

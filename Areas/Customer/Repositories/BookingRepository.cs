@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using CarRentalSystemSeparation.Common.Data;
-using CarRentalSystemSeparation.Areas.Customer.Models;
+
+
+
 using CarRentalSystemSeparation.Common.Enums;
 
 namespace CarRentalSystemSeparation.Areas.Customer.Repositories
@@ -17,18 +19,26 @@ namespace CarRentalSystemSeparation.Areas.Customer.Repositories
         int TotalAmount { get; set; }
         int VehicleId { get; set; }
 
-        Task<IEnumerable<IBookingRepository>> GetAllAsync();
+        public async Task<IEnumerable<IBookingRepository>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
         Task<IEnumerable<IBookingRepository>> GetByUserIdAsync(int userId);
         Task<IBookingRepository?> GetByIdAsync(int id);
         Task<IBookingRepository> CreateAsync(IBookingRepository booking);
         Task<IBookingRepository> UpdateAsync(IBookingRepository booking);
+        Task<CarRentalSystemSeparation.Areas.Customer.Models.Booking> CreateAsync(CarRentalSystemSeparation.Areas.Customer.Models.Booking booking);
+        Task<CarRentalSystemSeparation.Areas.Customer.Models.Booking> UpdateAsync(CarRentalSystemSeparation.Areas.Customer.Models.Booking booking);
+   
+
+
         Task<bool> DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
         Task<bool> IsVehicleAvailableAsync(int vehicleId, DateTime pickupDate, DateTime returnDate);
-        Task CreateAsync(Models.Booking booking);
+        //Task CreateAsync(Models.Booking booking);
     }
 
-    public class BookingRepository : IBookingRepository
+    public class BookingRepository : CarRentalSystemSeparation.Areas.Customer.Models.Booking
     {
         private readonly ApplicationDbContext _context;
 
@@ -56,13 +66,16 @@ namespace CarRentalSystemSeparation.Areas.Customer.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<IBookingRepository>> GetByUserIdAsync(int userId)
+        public async Task<IEnumerable<CarRentalSystemSeparation.Areas.Customer.Models.Booking>> GetByUserIdAsync(int userId)
+            
         {
-            return (IEnumerable<IBookingRepository>)await _context.Bookings
-                .Include(b => b.Vehicle)
-                .Where(b => b.UserId == userId)
-                .OrderByDescending(b => b.CreatedAt)
-                .ToListAsync();
+            {
+                return (IEnumerable<CarRentalSystemSeparation.Areas.Customer.Models.Booking>)await _context.Bookings
+                    .Include(b => b.Vehicle)
+                    .Where(b => b.UserId == userId)
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+            }
         }
 
         public async Task<IBookingRepository?> GetByIdAsync(int id)
@@ -111,10 +124,12 @@ namespace CarRentalSystemSeparation.Areas.Customer.Repositories
                 b.VehicleId == vehicleId &&
                 b.Status != Common.Enums.BookingStatus.Cancelled &&
                 ((pickupDate >= b.PickupDate && pickupDate <= b.ReturnDate) ||
-                 (returnDate >= b.PickupDate && returnDate <= b.ReturnDate) ||
+                 (returnDate >= b.PickupDate && returnDate <= b.ReturnDate) |
                  (pickupDate <= b.PickupDate && returnDate >= b.ReturnDate)));
+        
         }
 
+        /*
         Task<IEnumerable<IBookingRepository>> IBookingRepository.GetAllAsync()
         {
             throw new NotImplementedException();
@@ -125,6 +140,8 @@ namespace CarRentalSystemSeparation.Areas.Customer.Repositories
             throw new NotImplementedException();
         }
 
+        */
+        
         public Task CreateAsync(Models.Booking booking)
         {
             throw new NotImplementedException();

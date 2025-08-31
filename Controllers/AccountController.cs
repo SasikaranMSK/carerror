@@ -54,7 +54,9 @@ namespace CarRentalSystemSeparation.Controllers
             return user.Role switch
             {
                 UserRole.Admin or UserRole.SuperAdmin => RedirectToAction("Index", "Dashboard", new { area = "Admin" }),
-                UserRole.Customer => RedirectToAction("Index", "Home"),
+                //UserRole.Customer => RedirectToAction("Index", "Home"),
+                UserRole.Customer => RedirectToAction("Index", "Booking", new { area = "Customer" }),
+
                 _ => RedirectToAction("Login")
             };
         }
