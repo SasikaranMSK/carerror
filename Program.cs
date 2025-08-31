@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using CarRentalSystemSeparation.Areas.Customer.Services;
+using CarRentalSystemSeparation.Areas.Booking.Services;
+using CarRentalSystemSeparation.Areas.Customer.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +29,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IBannerRepository, BannerRepository>();
 //builder.Services.AddScoped<CarRentalSystemSeparation.Areas.Customer.Repositories.IBookingRepository, CarRentalSystemSeparation.Areas.Customer.Repositories.BookingRepository>();
+
+IServiceCollection serviceCollection = builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<CarRentalSystemSeparation.Areas.Booking.Repositories.IRentalRepository, CarRentalSystemSeparation.Areas.Booking.Repositories.RentalRepository>();
 
 // Register Services
